@@ -7,33 +7,90 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        body { background: #050505; color: #ffffff; overflow-x: hidden; min-height: 100vh; font-family: 'Inter', sans-serif; }
-        
-        /* --- BACKGROUND SYSTEM --- */
-        #matrix-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -3; opacity: 0.15; }
-        .bg-glow-purple { position: fixed; top: -10%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%); z-index: -1; filter: blur(80px); }
-        .bg-glow-blue { position: fixed; bottom: -10%; left: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%); z-index: -1; filter: blur(80px); }
+        body {
+            background: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
 
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .title-sporty { font-family: 'Arial Black', sans-serif; text-transform: uppercase; font-style: italic; letter-spacing: -2px; line-height: 0.9; }
-        .accent-border { border-left: 8px solid #3b82f6; padding-left: 20px; }
+        /* --- BACKGROUND MATRIX --- */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            opacity: 0.15; /* Agar tidak menutupi teks */
+        }
 
-        /* --- ACCORDION SYSTEM --- */
-        .accordion-content { max-height: 0; overflow: hidden; transition: all 0.5s ease-in-out; }
-        .accordion-content.active { max-height: 1000px; }
-        .icon-rotate { transition: transform 0.3s ease; }
-        .rotate-180 { transform: rotate(180deg); }
+        /* Gradient samar di latar belakang */
+        .bg-glow {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 100, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 10% 80%, rgba(0, 100, 255, 0.15) 0%, transparent 40%);
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Gaya teks ala Satria Muda: Bold, Italic, & Impactful */
+        .title-sporty {
+            font-family: 'Arial Black', sans-serif;
+            text-transform: uppercase;
+            font-style: italic;
+            letter-spacing: -2px;
+            line-height: 0.9;
+        }
+
+        /* Efek Border Warna */
+        .accent-border {
+            border-left: 8px solid #0066ff;
+            padding-left: 20px;
+        }
 
         @media (max-width: 768px) { 
             .mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; } 
             body { padding-bottom: 80px; } 
         }
+
+        /* Style untuk Accordion */
+        .accordion-header {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .accordion-header:hover {
+            background: rgba(0, 102, 255, 0.1);
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+        }
+        .accordion-content.active {
+            max-height: 1000px;
+            transition: max-height 1s ease-in-out;
+        }
+        .icon-rotate {
+            transition: transform 0.3s ease;
+        }
+        /* Penyesuaian rotasi agar bekerja dengan class active-header */
+        .active-header .icon-rotate {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body>
+
     <canvas id="matrix-canvas"></canvas>
-    <div class="bg-glow-purple"></div>
-    <div class="bg-glow-blue"></div>
+    <div class="bg-glow"></div>
 
     <nav class="mobile-nav md:fixed md:top-0 w-full glass py-5 z-50">
         <div class="container mx-auto px-6 flex justify-around md:justify-between items-center">
@@ -41,115 +98,218 @@
             <div class="flex space-x-8 text-xs font-bold uppercase tracking-[0.3em]">
                 <a href="index.html" class="hover:text-blue-400 transition">Home</a>
                 <a href="about.html" class="text-blue-400">About</a>
-                <a href="skills.html" class="hover:text-purple-400 transition">Skills</a>
+                <a href="skills.html" class="hover:text-red-400 transition">Skills</a>
                 <a href="contact.html" class="hover:text-blue-400 transition">Contact</a>
             </div>
         </div>
     </nav>
 
-    <main class="pt-32 pb-20 container mx-auto px-6 relative z-10">
-        <div class="grid md:grid-cols-2 gap-12 items-start">
+    <main class="pt-32 pb-20 container mx-auto px-6 relative">
+        <div class="grid md:grid-cols-2 gap-12 items-start relative">
             
-            <div data-aos="fade-right">
-                <h2 class="title-sporty text-7xl md:text-9xl mb-6">WHO <br> <span class="text-blue-600">AM</span> <br> I?</h2>
-                <div class="accent-border mb-8">
+            <div data-aos="fade-right" class="z-10">
+                <h2 class="title-sporty text-7xl md:text-9xl mb-6">
+                    WHO <br> <span class="text-blue-600">AM</span> <br> I?
+                </h2>
+                <div class="accent-border">
                     <p class="text-slate-400 uppercase tracking-widest text-sm font-bold">Based in Indonesia</p>
                 </div>
-                <div class="relative group max-w-sm hidden md:block">
+            </div>
+
+            <div class="absolute left-[25%] top-[40%] -translate-x-1/2 -translate-y-1/2 z-20 hidden md:block" data-aos="zoom-in" data-aos-delay="200">
+                <div class="relative group">
                     <div class="absolute -inset-2 bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-2xl blur-xl opacity-50"></div>
-                    <div class="relative overflow-hidden rounded-2xl border border-white/20 shadow-2xl transition-transform duration-500 group-hover:scale-[1.02]">
-                        <img src="https://raw.githubusercontent.com/Rusdi204/kereta-agro-ngawi-jes-gejes/main/WhatsApp%20Image%202026-02-05%20at%2009.12.27.jpeg" alt="Ali" class="w-full aspect-[3/4] object-cover">
+                    <div class="relative w-[300px] h-[420px] overflow-hidden rounded-2xl border border-white/30 shadow-2xl transition-transform duration-500 group-hover:scale-105">
+                        <img src="https://raw.githubusercontent.com/Rusdi204/kereta-agro-ngawi-jes-gejes/main/Gemini_Generated_Image_6vimsj6vimsj6vim-removebg-preview.png" alt="Profile Overlay" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                     </div>
                 </div>
             </div>
 
-            <div data-aos="fade-left" class="space-y-8">
-                <div class="glass p-8 rounded-tr-[50px] rounded-bl-[50px] border-r-4 border-purple-600 bg-black/40">
-                    <p class="text-xl md:text-2xl leading-tight font-light mb-6">Saya adalah perpaduan antara <span class="text-red-500 font-bold italic">Kreativitas</span> dan <span class="text-blue-500 font-bold italic">Strategi</span>.</p>
-                    <p class="text-slate-300 leading-relaxed">Seperti dalam bermain basket, setiap permainan harus tersusun rapi dan presisi. Memecahkan pola acak menjadi tersusun adalah konsep dasar hidup saya.</p>
+            <div data-aos="fade-left" data-aos-delay="400" class="z-10 space-y-8">
+                
+                <div class="glass p-8 rounded-tr-[50px] rounded-bl-[50px] border-r-4 border-purple-600 backdrop-blur-md bg-black/40">
+                    <p class="text-xl md:text-2xl leading-tight font-light mb-6 text-white">
+                        Saya adalah perpaduan antara <span class="text-red-500 font-bold italic">Kreativitas</span> dan <span class="text-blue-500 font-bold italic">Kode</span>.
+                    </p>
+                    <p class="text-slate-300 leading-relaxed">
+                        Seperti dalam bermain basket, setiap permainan harus tersusun dengan rapih dan presisi. Berpikir cepat dan memecahkan pola yang acak menjadi tersusun merupakan konsep dasar dalam kehidupan. Perjalanan saya dimulai ketika saya merasa bahwa dunia berjalan lebih cepat dari dugaan saya.
+                    </p>
                 </div>
 
                 <div class="space-y-4">
                     <div class="glass overflow-hidden rounded-2xl border border-blue-500/30">
-                        <div onclick="toggleAccordion('personal-data', this)" class="p-6 flex justify-between items-center cursor-pointer hover:bg-white/5">
-                            <h3 class="font-bold italic flex items-center gap-3"><span class="text-blue-500">01.</span> DATA PRIBADI</h3>
-                            <svg class="icon-rotate w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <div onclick="toggleAccordion('personal-data', this)" class="accordion-header p-6 flex justify-between items-center cursor-pointer hover:bg-white/5 transition">
+                            <h3 class="text-lg font-bold italic tracking-wider uppercase flex items-center gap-3 text-white">
+                                <span class="text-blue-500">01.</span> DATA PRIBADI
+                            </h3>
+                            <svg class="icon-rotate w-6 h-6 text-blue-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                        <div id="personal-data" class="accordion-content">
-                            <ul class="p-6 space-y-4 border-t border-white/5">
-                                <li class="flex items-center gap-4"><span class="text-xl">👤</span><div><p class="text-[10px] text-slate-500 font-bold uppercase">Nama Lengkap</p><p>Muhammad Maulana Ali El Sajjad</p></div></li>
-                                <li class="flex items-center gap-4"><span class="text-xl">👶</span><div><p class="text-[10px] text-slate-500 font-bold uppercase">Lahir</p><p>Subang, 26 Agustus 2008</p></div></li>
-                                <li class="flex items-center gap-4"><span class="text-xl">🕌</span><div><p class="text-[10px] text-slate-500 font-bold uppercase">Agama</p><p>Islam</p></div></li>
+                        <div id="personal-data" class="accordion-content max-h-0 overflow-hidden transition-all duration-500">
+                            <ul class="p-6 space-y-4 bg-white/5 font-light tracking-wide">
+                                <li class="flex items-center gap-4">
+                                    <span class="text-2xl">👤</span>
+                                    <div>
+                                        <p class="text-xs text-slate-500 uppercase font-bold">Nama Lengkap</p>
+                                        <p class="text-white font-medium">Muhammad Maulana Ali El Sajjad</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <span class="text-2xl">👶</span>
+                                    <div>
+                                        <p class="text-xs text-slate-500 uppercase font-bold">Tempat, Tanggal Lahir</p>
+                                        <p class="text-white font-medium">Subang, 26 Agustus 2008</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <span class="text-2xl">🕌</span>
+                                    <div>
+                                        <p class="text-xs text-slate-500 uppercase font-bold">Agama</p>
+                                        <p class="text-white font-medium">Islam</p>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="glass overflow-hidden rounded-2xl border border-red-500/30">
-                        <div onclick="toggleAccordion('achievements', this)" class="p-6 flex justify-between items-center cursor-pointer hover:bg-white/5">
-                            <h3 class="font-bold italic flex items-center gap-3"><span class="text-red-500">02.</span> PRESTASI</h3>
-                            <svg class="icon-rotate w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <div onclick="toggleAccordion('achievements', this)" class="accordion-header p-6 flex justify-between items-center cursor-pointer hover:bg-white/5 transition">
+                            <h3 class="text-lg font-bold italic tracking-wider uppercase flex items-center gap-3 text-white">
+                                <span class="text-red-500">02.</span> PRESTASI
+                            </h3>
+                            <svg class="icon-rotate w-6 h-6 text-red-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                        <div id="achievements" class="accordion-content">
-                            <ul class="p-6 space-y-4 border-t border-white/5">
-                                <li class="border-l-2 border-red-500 pl-4"><p class="font-bold italic text-sm">JUARA X-4ZA 2023 SMK IPTEK CILAMAYA</p><p class="text-xs text-slate-400">Basketball Team</p></li>
-                                <li class="border-l-2 border-red-500 pl-4"><p class="font-bold italic text-sm">JUARA 3 FKFS 2025</p><p class="text-xs text-slate-400">Achievement</p></li>
-                                <li class="border-l-2 border-red-500 pl-4"><p class="font-bold italic text-sm">PARALEL RANKING 1 SMPN 2 CIASEM</p><p class="text-xs text-slate-400">Akademik 2023</p></li>
-                                <li class="border-l-2 border-red-500 pl-4"><p class="font-bold italic text-sm">KEJURDA BASKETBALL 2025 PLAYER</p><p class="text-xs text-slate-400">Division 1</p></li>
+                        <div id="achievements" class="accordion-content max-h-0 overflow-hidden transition-all duration-500">
+                            <ul class="p-6 space-y-4 bg-white/5">
+                                <li class="flex items-center gap-4 border-l-2 border-red-500 pl-4">
+                                    <span class="text-2xl">🏆</span>
+                                    <div>
+                                        <p class="font-bold text-white uppercase italic text-sm">Juara X-4ZA 2023 SMK Iptek Cilamaya Basket Putra</p>
+                                        <p class="text-xs text-slate-400">2023</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-4 border-l-2 border-red-500 pl-4">
+                                    <span class="text-2xl">🏆</span>
+                                    <div>
+                                        <p class="font-bold text-white uppercase italic text-sm">Juara 3 FKFS 2025</p>
+                                        <p class="text-xs text-slate-400">2025</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-4 border-l-2 border-red-500 pl-4">
+                                    <span class="text-2xl">🏆</span>
+                                    <div>
+                                        <p class="font-bold text-white uppercase italic text-sm">Division 1 Kejurda Basketball 2025 Player</p>
+                                        <p class="text-xs text-slate-400">2025</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-4 border-l-2 border-red-500 pl-4">
+                                    <span class="text-2xl">🏆</span>
+                                    <div>
+                                        <p class="font-bold text-white uppercase italic text-sm">Paralel Ranking 1 SMPN 2 Ciasem</p>
+                                        <p class="text-xs text-slate-400">2023</p>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="glass overflow-hidden rounded-2xl border border-purple-500/30">
-                        <div onclick="toggleAccordion('education', this)" class="p-6 flex justify-between items-center cursor-pointer hover:bg-white/5">
-                            <h3 class="font-bold italic flex items-center gap-3"><span class="text-purple-500">03.</span> RIWAYAT SEKOLAH</h3>
-                            <svg class="icon-rotate w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <div onclick="toggleAccordion('education', this)" class="accordion-header p-6 flex justify-between items-center cursor-pointer hover:bg-white/5 transition">
+                            <h3 class="text-lg font-bold italic tracking-wider uppercase flex items-center gap-3 text-white">
+                                <span class="text-purple-500">03.</span> RIWAYAT SEKOLAH
+                            </h3>
+                            <svg class="icon-rotate w-6 h-6 text-purple-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                         </div>
-                        <div id="education" class="accordion-content">
-                            <ul class="p-6 space-y-5 border-t border-white/5">
-                                <li><p class="font-bold italic">SMAN 1 SUBANG</p><p class="text-[10px] text-purple-400">2023 - 2026</p></li>
-                                <li><p class="font-bold italic">SMPN 2 CIASEM</p><p class="text-[10px] text-purple-400">2020 - 2023</p></li>
-                                <li><p class="font-bold italic">SDN 2 MARGAMULYA</p><p class="text-[10px] text-purple-400">2014 - 2020</p></li>
-                                <li><p class="font-bold italic">TK AL-MUKAROMAH</p><p class="text-[10px] text-purple-400">2011 - 2014</p></li>
+                        <div id="education" class="accordion-content max-h-0 overflow-hidden transition-all duration-500">
+                            <ul class="p-6 space-y-5 bg-white/5 font-light">
+                                <li class="flex items-center gap-4">
+                                    <span class="text-2xl">🎓</span>
+                                    <div>
+                                        <p class="text-xs text-slate-500 uppercase font-bold">Sekolah Menengah Atas</p>
+                                        <p class="text-white font-bold italic">SMAN 1 Subang</p>
+                                        <p class="text-[10px] text-purple-400">2023 - 2026</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <span class="text-2xl">🏫</span>
+                                    <div>
+                                        <p class="text-xs text-slate-500 uppercase font-bold">Sekolah Menengah Pertama</p>
+                                        <p class="text-white font-bold italic">SMPN 2 Ciasem</p>
+                                        <p class="text-[10px] text-purple-400">2020 - 2023</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <span class="text-2xl">📚</span>
+                                    <div>
+                                        <p class="text-xs text-slate-500 uppercase font-bold">Sekolah Dasar</p>
+                                        <p class="text-white font-bold italic">SDN 2 Margamulya</p>
+                                        <p class="text-[10px] text-purple-400">2014 - 2020</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <span class="text-2xl">✏️</span>
+                                    <div>
+                                        <p class="text-xs text-slate-500 uppercase font-bold">Taman Kanak-Kanak</p>
+                                        <p class="text-white font-bold italic">TK Al-Mukaromah</p>
+                                        <p class="text-[10px] text-purple-400">2011 - 2014</p>
+                                    </div>
+                                </li>
                             </ul>
                         </div>
                     </div>
+
                 </div>
             </div>
+        </div>
+
+        <div class="md:hidden mt-8 flex justify-center" data-aos="zoom-in">
+            <img src="https://raw.githubusercontent.com/Rusdi204/kereta-agro-ngawi-jes-gejes/main/WhatsApp%20Image%202026-02-05%20at%2009.12.27.jpeg" class="w-64 h-80 object-cover rounded-2xl border border-white/20 shadow-xl">
         </div>
     </main>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000, once: true });
-        function toggleAccordion(id, header) {
+
+        // LOGIC ACCORDION
+        function toggleAccordion(id, el) {
             const content = document.getElementById(id);
-            const icon = header.querySelector('.icon-rotate');
             content.classList.toggle('active');
-            icon.classList.toggle('rotate-180');
+            el.classList.toggle('active-header');
         }
 
+        // LOGIC MATRIX RAIN BACKGROUND
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
+
         let width = canvas.width = window.innerWidth;
         let height = canvas.height = window.innerHeight;
+
         const letters = "0101010101ABCDEFHIJKLMNOPQRSTUVWXYZ";
         const fontSize = 16;
         const columns = Math.floor(width / fontSize);
         const drops = Array(columns).fill(1);
 
         function drawMatrix() {
-            ctx.fillStyle = "rgba(5, 5, 5, 0.1)";
+            ctx.fillStyle = "rgba(5, 5, 5, 0.1)"; // Background trail
             ctx.fillRect(0, 0, width, height);
-            ctx.fillStyle = "#a855f7"; 
+            
+            ctx.fillStyle = "#a855f7"; // Warna Matrix (Ungu sesuai skema portfolio)
             ctx.font = fontSize + "px monospace";
+
             for (let i = 0; i < drops.length; i++) {
                 const text = letters.charAt(Math.floor(Math.random() * letters.length));
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+
+                if (drops[i] * fontSize > height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
                 drops[i]++;
             }
         }
+
         setInterval(drawMatrix, 33);
+
         window.addEventListener('resize', () => {
             width = canvas.width = window.innerWidth;
             height = canvas.height = window.innerHeight;

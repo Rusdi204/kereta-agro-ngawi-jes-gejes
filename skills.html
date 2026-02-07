@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills | Futuristic Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            background: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- BACKGROUND SYSTEM --- */
+        #matrix-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -3;
+            opacity: 0.15;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+        }
+
+        .bg-glow-purple {
+            position: fixed;
+            top: -10%; right: -10%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(80px);
+        }
+
+        .bg-glow-blue {
+            position: fixed;
+            bottom: -10%; left: -10%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(80px);
+        }
+
+        .noise {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* --- SKILLS STYLING --- */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .skill-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 10px 30px -10px rgba(168, 85, 247, 0.3);
+        }
+
+        .circle-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        svg.progress-svg {
+            transform: rotate(-90deg);
+        }
+
+        circle {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+        }
+
+        .circle-bg { stroke: rgba(255, 255, 255, 0.05); }
+
+        .circle-progress {
+            stroke: #a855f7;
+            stroke-dasharray: 314;
+            stroke-dashoffset: 314;
+            transition: stroke-dashoffset 2s ease-in-out;
+            filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.8));
+        }
+
+        .ovr-text {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        @media (max-width: 768px) { 
+            .mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; } 
+            body { padding-bottom: 80px; } 
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="noise"></div>
+    <div class="bg-glow-purple"></div>
+    <div class="bg-glow-blue"></div>
+
+    <nav class="mobile-nav md:fixed md:top-0 w-full glass py-5 z-50">
+        <div class="container mx-auto px-6 flex justify-around md:justify-between items-center">
+            <h1 class="hidden md:block font-black text-2xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">PORTFOLIO.</h1>
+            <div class="flex space-x-8 text-xs font-bold uppercase tracking-[0.3em]">
+                <a href="index.html" class="hover:text-blue-400 transition">Home</a>
+                <a href="about.html" class="hover:text-blue-400 transition">About</a>
+                <a href="skills.html" class="text-purple-500">Skills</a>
+                <a href="contact.html" class="hover:text-red-400 transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 container mx-auto px-6 relative z-10">
+        <div class="text-center mb-16" data-aos="fade-down">
+            <h2 class="text-5xl md:text-7xl font-black italic uppercase tracking-tighter">
+                Technical <span class="text-purple-600 underline decoration-double">Stats</span>
+            </h2>
+            <p class="text-slate-500 mt-4 font-mono tracking-widest text-sm">OVR RATING - SEASON 2026</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            
+            <div class="skill-card glass p-8 rounded-3xl flex flex-col items-center" data-aos="zoom-in" data-ovr="90">
+                <div class="circle-container mb-4">
+                    <svg class="progress-svg" width="120" height="120">
+                        <circle class="circle-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="circle-progress" cx="60" cy="60" r="50"></circle>
+                    </svg>
+                    <div class="ovr-text text-2xl font-black italic">90<span class="text-xs text-purple-500 ml-1">OVR</span></div>
+                </div>
+                <h3 class="font-bold uppercase tracking-widest text-slate-400 text-xs text-center">AI Tooling</h3>
+            </div>
+
+            <div class="skill-card glass p-8 rounded-3xl flex flex-col items-center" data-aos="zoom-in" data-aos-delay="100" data-ovr="90">
+                <div class="circle-container mb-4">
+                    <svg class="progress-svg" width="120" height="120">
+                        <circle class="circle-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="circle-progress" cx="60" cy="60" r="50"></circle>
+                    </svg>
+                    <div class="ovr-text text-2xl font-black italic">90<span class="text-xs text-purple-500 ml-1">OVR</span></div>
+                </div>
+                <h3 class="font-bold uppercase tracking-widest text-slate-400 text-xs text-center">Basketball skills</h3>
+            </div>
+
+            <div class="skill-card glass p-8 rounded-3xl flex flex-col items-center" data-aos="zoom-in" data-aos-delay="200" data-ovr="85">
+                <div class="circle-container mb-4">
+                    <svg class="progress-svg" width="120" height="120">
+                        <circle class="circle-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="circle-progress" cx="60" cy="60" r="50"></circle>
+                    </svg>
+                    <div class="ovr-text text-2xl font-black italic">85<span class="text-xs text-purple-500 ml-1">OVR</span></div>
+                </div>
+                <h3 class="font-bold uppercase tracking-widest text-slate-400 text-xs text-center">Sport Science</h3>
+            </div>
+
+            <div class="skill-card glass p-8 rounded-3xl flex flex-col items-center" data-aos="zoom-in" data-aos-delay="300" data-ovr="79">
+                <div class="circle-container mb-4">
+                    <svg class="progress-svg" width="120" height="120">
+                        <circle class="circle-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="circle-progress" cx="60" cy="60" r="50"></circle>
+                    </svg>
+                    <div class="ovr-text text-2xl font-black italic">79<span class="text-xs text-purple-500 ml-1">OVR</span></div>
+                </div>
+                <h3 class="font-bold uppercase tracking-widest text-slate-400 text-xs text-center">Cooking</h3>
+            </div>
+
+            <div class="skill-card glass p-8 rounded-3xl flex flex-col items-center" data-aos="zoom-in" data-aos-delay="400" data-ovr="83">
+                <div class="circle-container mb-4">
+                    <svg class="progress-svg" width="120" height="120">
+                        <circle class="circle-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="circle-progress" cx="60" cy="60" r="50"></circle>
+                    </svg>
+                    <div class="ovr-text text-2xl font-black italic">83<span class="text-xs text-purple-500 ml-1">OVR</span></div>
+                </div>
+                <h3 class="font-bold uppercase tracking-widest text-slate-400 text-xs text-center">Public Speaking</h3>
+            </div>
+
+            <div class="skill-card glass p-8 rounded-3xl flex flex-col items-center" data-aos="zoom-in" data-aos-delay="500" data-ovr="62">
+                <div class="circle-container mb-4">
+                    <svg class="progress-svg" width="120" height="120">
+                        <circle class="circle-bg" cx="60" cy="60" r="50"></circle>
+                        <circle class="circle-progress" cx="60" cy="60" r="50"></circle>
+                    </svg>
+                    <div class="ovr-text text-2xl font-black italic">62<span class="text-xs text-purple-500 ml-1">OVR</span></div>
+                </div>
+                <h3 class="font-bold uppercase tracking-widest text-slate-400 text-xs text-center">Social Skill</h3>
+            </div>
+
+        </div>
+
+        <div class="mt-20 max-w-2xl mx-auto glass p-8 rounded-[40px] border border-purple-500/20" data-aos="fade-up">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-black italic uppercase tracking-widest text-white">Overall <span class="text-purple-500">Analysis</span></h3>
+                <p class="text-xs text-slate-500 font-mono mt-2">TECHNICAL ATTRIBUTES DISTRIBUTION</p>
+            </div>
+            <div class="relative h-[350px] md:h-[450px]">
+                <canvas id="skillRadar"></canvas>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // RADAR CHART CONFIG
+        const ctxRadar = document.getElementById('skillRadar').getContext('2d');
+        new Chart(ctxRadar, {
+            type: 'radar',
+            data: {
+                labels: ['AI Tooling', 'Basketball', 'Sport Science', 'Cooking', 'Speaking', 'Social Skill'],
+                datasets: [{
+                    label: 'OVR STATS',
+                    data: [90, 90, 85, 79, 83, 62],
+                    fill: true,
+                    backgroundColor: 'rgba(168, 85, 247, 0.2)',
+                    borderColor: '#a855f7',
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#a855f7',
+                    borderWidth: 3,
+                    tension: 0.2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        pointLabels: { color: '#94a3b8', font: { size: 12, weight: 'bold' } },
+                        ticks: { display: false, stepSize: 20 },
+                        suggestedMin: 0,
+                        suggestedMax: 100
+                    }
+                },
+                plugins: { legend: { display: false } }
+            }
+        });
+
+        // MATRIX RAIN LOGIC
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        const letters = "0101010101ABCDEFHIJKLMNOPQRSTUVWXYZ";
+        const fontSize = 16;
+        const columns = Math.floor(width / fontSize);
+        const drops = [];
+        for (let i = 0; i < columns; i++) drops[i] = 1;
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(5, 5, 5, 0.1)";
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "#a855f7"; 
+            ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
+
+        // CIRCLE PROGRESS ANIMATION
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.skill-card').forEach(card => {
+                const ovrValue = card.getAttribute('data-ovr');
+                const circle = card.querySelector('.circle-progress');
+                const circumference = 2 * Math.PI * 50;
+                const offset = circumference - (ovrValue / 100) * circumference;
+                setTimeout(() => {
+                    circle.style.strokeDashoffset = offset;
+                }, 500);
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>

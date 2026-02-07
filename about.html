@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me | Futuristic Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            background: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- BACKGROUND SYSTEM --- */
+        #matrix-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: -3;
+            opacity: 0.15;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -2;
+        }
+
+        .bg-glow-purple {
+            position: fixed;
+            top: -10%; right: -10%;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(80px);
+        }
+
+        .bg-glow-blue {
+            position: fixed;
+            bottom: -10%; left: -10%;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            z-index: -1;
+            filter: blur(80px);
+        }
+
+        .noise {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        /* --- UI COMPONENTS --- */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .title-sporty {
+            font-family: 'Arial Black', sans-serif;
+            text-transform: uppercase;
+            font-style: italic;
+            letter-spacing: -2px;
+            line-height: 0.9;
+        }
+
+        .accent-border {
+            border-left: 8px solid #3b82f6;
+            padding-left: 20px;
+        }
+
+        /* --- ACCORDION SYSTEM --- */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .accordion-content.active {
+            max-height: 500px; /* Sesuaikan dengan kebutuhan isi */
+        }
+        .icon-rotate { transition: transform 0.3s ease; }
+        .rotate-180 { transform: rotate(180deg); }
+
+        @media (max-width: 768px) { 
+            .mobile-nav { position: fixed; bottom: 0; left: 0; right: 0; z-index: 50; } 
+            body { padding-bottom: 80px; } 
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="noise"></div>
+    <div class="bg-glow-purple"></div>
+    <div class="bg-glow-blue"></div>
+
+    <nav class="mobile-nav md:fixed md:top-0 w-full glass py-5 z-50">
+        <div class="container mx-auto px-6 flex justify-around md:justify-between items-center">
+            <h1 class="hidden md:block font-black text-2xl tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">PORTFOLIO.</h1>
+            <div class="flex space-x-8 text-xs font-bold uppercase tracking-[0.3em]">
+                <a href="index.html" class="hover:text-blue-400 transition">Home</a>
+                <a href="about.html" class="text-blue-400">About</a>
+                <a href="skills.html" class="hover:text-red-400 transition">Skills</a>
+                <a href="contact.html" class="hover:text-blue-400 transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-32 pb-20 container mx-auto px-6 relative z-10">
+        <div class="grid md:grid-cols-2 gap-12 items-start relative">
+            
+            <div data-aos="fade-right">
+                <h2 class="title-sporty text-7xl md:text-9xl mb-6">
+                    WHO <br> <span class="text-blue-600">AM</span> <br> I?
+                </h2>
+                <div class="accent-border">
+                    <p class="text-slate-400 uppercase tracking-widest text-sm font-bold">Based in Indonesia</p>
+                </div>
+            </div>
+
+            <div class="absolute left-[25%] top-[40%] -translate-x-1/2 -translate-y-1/2 z-20 hidden md:block" data-aos="zoom-in" data-aos-delay="200">
+                <div class="relative group">
+                    <div class="absolute -inset-2 bg-gradient-to-r from-blue-600/30 to-purple-600/30 rounded-2xl blur-xl opacity-50"></div>
+                    <div class="relative w-[300px] h-[420px] overflow-hidden rounded-2xl border border-white/30 shadow-2xl transition-transform duration-500 group-hover:scale-105">
+                        <img src="GAMBAR/Gemini_Generated_Image_6vimsj6vimsj6vim-removebg-preview.png" alt="Profile Overlay" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+
+            <div data-aos="fade-left" data-aos-delay="400" class="space-y-8">
+                <div class="glass p-8 rounded-tr-[50px] rounded-bl-[50px] border-r-4 border-purple-600 bg-black/40">
+                    <p class="text-xl md:text-2xl leading-tight font-light mb-6 text-white">
+                        Saya adalah perpaduan antara <span class="text-red-500 font-bold italic">Kreativitas</span> dan <span class="text-blue-500 font-bold italic">Kode</span>.
+                    </p>
+                    <p class="text-slate-300 leading-relaxed">
+                        Seperti dalam bermain basket, setiap permainan harus tersusun dengan rapi dan presisi. Berpikir cepat dan memecahkan pola yang acak menjadi tersusun merupakan konsep dasar dalam kehidupan.
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="glass overflow-hidden rounded-2xl border border-blue-500/30">
+                        <div onclick="toggleAccordion('personal-data', this)" class="p-6 flex justify-between items-center cursor-pointer hover:bg-white/5 transition">
+                            <h3 class="text-lg font-bold italic tracking-wider uppercase flex items-center gap-3 text-white">
+                                <span class="text-blue-500">01.</span> DATA PRIBADI
+                            </h3>
+                            <svg class="icon-rotate w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div id="personal-data" class="accordion-content bg-white/5">
+                            <ul class="p-6 space-y-4">
+                                <li class="flex items-center gap-4">
+                                    <span class="text-2xl">👤</span>
+                                    <div>
+                                        <p class="text-[10px] text-slate-500 uppercase font-bold">Nama Lengkap</p>
+                                        <p class="text-white">Muhammad Maulana Ali El Sajjad</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-center gap-4">
+                                    <span class="text-2xl">👶</span>
+                                    <div>
+                                        <p class="text-[10px] text-slate-500 uppercase font-bold">Lahir</p>
+                                        <p class="text-white">Subang, 26 Agustus 2008</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="glass overflow-hidden rounded-2xl border border-red-500/30">
+                        <div onclick="toggleAccordion('achievements', this)" class="p-6 flex justify-between items-center cursor-pointer hover:bg-white/5 transition">
+                            <h3 class="text-lg font-bold italic tracking-wider uppercase flex items-center gap-3 text-white">
+                                <span class="text-red-500">02.</span> PRESTASI
+                            </h3>
+                            <svg class="icon-rotate w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div id="achievements" class="accordion-content bg-white/5">
+                            <ul class="p-6 space-y-4">
+                                <li class="border-l-2 border-red-500 pl-4">
+                                    <p class="font-bold text-white text-sm italic">Juara X-4ZA 2023 SMK Iptek Cilamaya</p>
+                                    <p class="text-[10px] text-slate-400">Basketball Team</p>
+                                </li>
+                                <li class="border-l-2 border-red-500 pl-4">
+                                    <p class="font-bold text-white text-sm italic">Paralel Ranking 1 SMPN 2 Ciasem</p>
+                                    <p class="text-[10px] text-slate-400">Akademik 2023</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="glass overflow-hidden rounded-2xl border border-purple-500/30">
+                        <div onclick="toggleAccordion('education', this)" class="p-6 flex justify-between items-center cursor-pointer hover:bg-white/5 transition">
+                            <h3 class="text-lg font-bold italic tracking-wider uppercase flex items-center gap-3 text-white">
+                                <span class="text-purple-500">03.</span> RIWAYAT SEKOLAH
+                            </h3>
+                            <svg class="icon-rotate w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </div>
+                        <div id="education" class="accordion-content bg-white/5">
+                            <ul class="p-6 space-y-4">
+                                <li>
+                                    <p class="text-white font-bold italic">SMAN 1 Subang</p>
+                                    <p class="text-[10px] text-purple-400">2023 - 2026</p>
+                                </li>
+                                <li>
+                                    <p class="text-white font-bold italic">SMPN 2 Ciasem</p>
+                                    <p class="text-[10px] text-purple-400">2020 - 2023</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        // --- ACCORDION LOGIC ---
+        function toggleAccordion(id, header) {
+            const content = document.getElementById(id);
+            const icon = header.querySelector('.icon-rotate');
+            
+            content.classList.toggle('active');
+            icon.classList.toggle('rotate-180');
+        }
+
+        // --- MATRIX RAIN LOGIC ---
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        const letters = "0101010101ABCDEFHIJKLMNOPQRSTUVWXYZ";
+        const fontSize = 16;
+        const columns = Math.floor(width / fontSize);
+        const drops = [];
+        for (let i = 0; i < columns; i++) drops[i] = 1;
+
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(5, 5, 5, 0.1)";
+            ctx.fillRect(0, 0, width, height);
+            ctx.fillStyle = "#a855f7"; 
+            ctx.font = fontSize + "px monospace";
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
